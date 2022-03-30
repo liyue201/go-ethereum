@@ -23,6 +23,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strings"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
@@ -108,6 +109,7 @@ func (ec *Client) getBlock(ctx context.Context, method string, args ...interface
 	} else if len(raw) == 0 {
 		return nil, ethereum.NotFound
 	}
+	raw = []byte(strings.ReplaceAll(string(raw), "\"gasLimit\":\"0xffffffffffffffffffffffffffffffff\"", "\"gasLimit\":\"0x\"gasLimit\":\"0xfffffffffffff\"\""))
 	// Decode header and transactions.
 	var head *types.Header
 	var body rpcBlock
