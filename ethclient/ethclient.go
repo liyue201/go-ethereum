@@ -23,6 +23,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"strings"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
@@ -108,6 +109,8 @@ func (ec *Client) getBlock(ctx context.Context, method string, args ...interface
 	} else if len(raw) == 0 {
 		return nil, ethereum.NotFound
 	}
+	s :=  strings.ReplaceAll(string(raw), "0xffffffffffffffffffffffffffffffff", "0xfffffff")
+	raw = []byte(s)
 	// Decode header and transactions.
 	var head *types.Header
 	var body rpcBlock
